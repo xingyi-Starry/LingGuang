@@ -3,6 +3,9 @@
 #include "PWM.h"
 #include "OLED.h"
 
+uint16_t year = 0;
+uint8_t month = 1;
+uint8_t day = 1;
 uint8_t hour = 0;
 uint8_t min = 0;
 uint8_t sec = 0;
@@ -80,12 +83,68 @@ void TIM3_IRQHandler(void)
             min = 0;
             hour++;
         }
+        if (hour >= 24)
+        {
+            hour = 0;
+            day++;
+        }
+        switch (month)
+        {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            if (day > 31)
+            {
+                day = 1;
+                month++;
+            }
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            if (day > 30)
+            {
+                day = 1;
+                month++;
+            }
+        case 2:
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+            {
+                if (day > 29)
+                {
+                    day = 1;
+                    month++;
+                }
+            }
+            else 
+            {
+                if (day > 28)
+                {
+                    day = 1;
+                    month++;
+                }
+            break;
+            }
+        default:
+            month = 1;
+            break;
+        }
+        if (month > 12)
+        {
+            month = 1;
+            year++;
+        }
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 	}
 }
 
+
 /*
-//PWM呼吸灯
 void TIM4_IRQHandler(void)
 {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) == SET)
