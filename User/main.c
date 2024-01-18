@@ -31,24 +31,29 @@ int main(void)
 	{
 		if (key2_State == 1)
 		{
-			if (Sensor_Value[1] >= 3000 && Sensor_Value[0] <= 3000)
+			if (Sensor_Value[1] >= 2000 /*&& Sensor_Value[0] <= 3000*/)
 			{
-				key1_Switch = 1;
+				OLED_ShowString(1, 11, "ON ");
+				PWM_SetBrightness(Sensor_Value[1] / 20 - 100);
 			}
 			else
 			{
-				key1_Switch = 0;
+				OLED_ShowString(1, 11, "OFF");
+				PWM_SetBrightness(0);
 			}
 		}
-		if (key1_Switch == 0)
+		else if (key2_State == 0)
 		{
-			OLED_ShowString(1, 11, "OFF");
-			PWM_CloseLight();
-		}
-		else if (key1_Switch == 1)
-		{
-			OLED_ShowString(1, 11, "ON ");
-			PWM_SetBrightness(duty);
+			if (key1_Switch == 0)
+			{
+				OLED_ShowString(1, 11, "OFF");
+				PWM_SetBrightness(0);
+			}
+			else if (key1_Switch == 1)
+			{
+				OLED_ShowString(1, 11, "ON ");
+				PWM_SetBrightness(100);
+			}
 		}
 
 		if (Serial_RxFlag == 1)
@@ -77,7 +82,7 @@ int main(void)
 		OLED_ShowNum(3, 6, hour, 2);
 		OLED_ShowNum(3, 9, min, 2);
 		OLED_ShowNum(3, 12, sec, 2);
-		OLED_ShowNum(4, 4, duty, 4);
+		OLED_ShowNum(4, 4, Sensor_Value[1], 4);
 		OLED_ShowNum(4, 11, Sensor_Value[0], 4);
 	}
 }

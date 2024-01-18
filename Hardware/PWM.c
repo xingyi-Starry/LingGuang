@@ -43,13 +43,15 @@ void PWM_Init()
     TIM_Cmd(TIM2, ENABLE);
 }
 
+    /*取值从1到100, 为亮度, 若输入非正数则关闭灯光*/
 void PWM_SetBrightness(uint16_t Brightness)
 {
-    /*取值从0到100, 为亮度百分数*/
+    if (Brightness > 100)
+        Brightness = 100;
+    else if (Brightness <= 0)
+    {
+        TIM_SetCompare1(TIM2, 0);
+        return;
+    }
     TIM_SetCompare1(TIM2, LOWEST_BRI + (HIGHEST_BRI - LOWEST_BRI) * Brightness / 100);
-}
-
-void PWM_CloseLight(void)
-{
-    TIM_SetCompare1(TIM2, 0);
 }
