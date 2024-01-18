@@ -1,5 +1,8 @@
 /*PWM输出用于控制灯光, 于PA0口输出*/
 
+#define LOWEST_BRI 100   // 最低亮度对应CCR
+#define HIGHEST_BRI 200 // 最高亮度对应CCR
+
 #include "stm32f10x.h"
 
 void PWM_Init()
@@ -22,8 +25,8 @@ void PWM_Init()
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseStructure.TIM_Period = 100 - 1;
-    TIM_TimeBaseStructure.TIM_Prescaler = 720 - 1;
+    TIM_TimeBaseStructure.TIM_Period = 10000 - 1;
+    TIM_TimeBaseStructure.TIM_Prescaler = 72 - 1;
     TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
     TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
 
@@ -40,8 +43,13 @@ void PWM_Init()
     TIM_Cmd(TIM2, ENABLE);
 }
 
-void PWM_SetBrightness(uint16_t Compare)
+void PWM_SetBrightness(uint16_t Brightness)
 {
     /*取值从0到100, 为亮度百分数*/
-    TIM_SetCompare1(TIM2, (uint16_t)100 - Compare);
+    TIM_SetCompare1(TIM2, LOWEST_BRI + (HIGHEST_BRI - LOWEST_BRI) * Brightness / 100);
+}
+
+void PWM_CloseLight(void)
+{
+    TIM_SetCompare1(TIM2, 0);
 }

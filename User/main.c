@@ -43,12 +43,12 @@ int main(void)
 		if (key1_Switch == 0)
 		{
 			OLED_ShowString(1, 11, "OFF");
-			PWM_SetBrightness(0);
+			PWM_CloseLight();
 		}
 		else if (key1_Switch == 1)
 		{
 			OLED_ShowString(1, 11, "ON ");
-			PWM_SetBrightness(100);
+			PWM_SetBrightness(duty);
 		}
 
 		if (Serial_RxFlag == 1)
@@ -77,7 +77,7 @@ int main(void)
 		OLED_ShowNum(3, 6, hour, 2);
 		OLED_ShowNum(3, 9, min, 2);
 		OLED_ShowNum(3, 12, sec, 2);
-		OLED_ShowNum(4, 4, Sensor_Value[1], 4);
+		OLED_ShowNum(4, 4, duty, 4);
 		OLED_ShowNum(4, 11, Sensor_Value[0], 4);
 	}
 }

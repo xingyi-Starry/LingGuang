@@ -3,5 +3,6 @@
 
 void PWM_Init(void);
 void PWM_SetBrightness(uint16_t Compare);
+void PWM_CloseLight(void);
 
 #endif
