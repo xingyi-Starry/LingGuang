@@ -778,7 +778,11 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 F (.\System\Delay.h)(0x65224F8B)()
+<<<<<<< HEAD
 F (.\Hardware\Key.c)(0x65A8E3A3)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\key.o --omf_browse .\objects\key.crf --depend .\objects\key.d)
+=======
+F (.\Hardware\Key.c)(0x65A90E57)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\key.o --omf_browse .\objects\key.crf --depend .\objects\key.d)
+>>>>>>> stable
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -808,7 +812,7 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 I (.\System\Delay.h)(0x65224F8B)
-F (.\Hardware\Key.h)(0x655C3DF5)()
+F (.\Hardware\Key.h)(0x65A908D4)()
 F (.\Hardware\OLED.c)(0x65224F8A)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\oled.o --omf_browse .\objects\oled.crf --depend .\objects\oled.d)
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
@@ -871,10 +875,14 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 I (Hardware\LED.h)(0x655B3A11)
-I (Hardware\PWM.h)(0x655C3FAB)
+I (Hardware\PWM.h)(0x65A90E57)
 I (Hardware\OLED.h)(0x65224F8A)
 F (.\Hardware\Timer.h)(0x655C558C)()
+<<<<<<< HEAD
 F (.\Hardware\PWM.c)(0x65A905B9)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\pwm.o --omf_browse .\objects\pwm.crf --depend .\objects\pwm.d)
+=======
+F (.\Hardware\PWM.c)(0x65A90E9E)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\pwm.o --omf_browse .\objects\pwm.crf --depend .\objects\pwm.d)
+>>>>>>> stable
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -903,7 +911,7 @@ I (.\Library\stm32f10x_tim.h)(0x655B3746)
 I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
-F (.\Hardware\PWM.h)(0x655C3FAB)()
+F (.\Hardware\PWM.h)(0x65A90E57)()
 F (.\Hardware\Serial.c)(0x655C5475)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\serial.o --omf_browse .\objects\serial.crf --depend .\objects\serial.d)
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
@@ -934,7 +942,11 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 F (.\Hardware\Serial.h)(0x655B39D2)()
+<<<<<<< HEAD
 F (.\Hardware\Sensor.c)(0x65A9035D)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\sensor.o --omf_browse .\objects\sensor.crf --depend .\objects\sensor.d)
+=======
+F (.\Hardware\Sensor.c)(0x65A907D9)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\sensor.o --omf_browse .\objects\sensor.crf --depend .\objects\sensor.d)
+>>>>>>> stable
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -964,7 +976,11 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 F (.\Hardware\Sensor.h)(0x655B6035)()
+<<<<<<< HEAD
 F (.\User\main.c)(0x65A905D2)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+=======
+F (.\User\main.c)(0x65A90ED1)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+>>>>>>> stable
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -996,8 +1012,8 @@ I (.\Library\misc.h)(0x655B3746)
 I (.\System\Delay.h)(0x65224F8B)
 I (.\Hardware\LED.h)(0x655B3A11)
 I (.\Hardware\OLED.h)(0x65224F8A)
-I (.\Hardware\Key.h)(0x655C3DF5)
-I (.\Hardware\PWM.h)(0x655C3FAB)
+I (.\Hardware\Key.h)(0x65A908D4)
+I (.\Hardware\PWM.h)(0x65A90E57)
 I (.\Hardware\Timer.h)(0x655C558C)
 I (.\Hardware\Sensor.h)(0x655B6035)
 I (.\Hardware\Serial.h)(0x655B39D2)

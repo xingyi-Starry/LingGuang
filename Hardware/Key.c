@@ -5,6 +5,7 @@
 uint8_t key1_Switch = 0;
 /*表示当前模式, 0表示手动模式, 1表示自动模式*/
 uint8_t key2_State = 0;
+uint16_t duty = 0;
 
 void Key_Init(void)
 {
@@ -76,14 +77,7 @@ void EXTI15_10_IRQHandler(void)
 {    
     if (EXTI_GetITStatus(EXTI_Line12) == SET)
     {
-        if (key2_State == 0)
-        {
-            key2_State = 1;
-        }
-        else 
-        {
-            key2_State = 0;
-        }
+        duty += 1;
 
 		Delay_ms(10);
 		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == 1);
