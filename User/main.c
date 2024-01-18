@@ -48,7 +48,7 @@ int main(void)
 		else if (key1_Switch == 1)
 		{
 			OLED_ShowString(1, 11, "ON ");
-			PWM_SetBrightness(100);
+			PWM_SetBrightness(10);
 		}
 
 		if (Serial_RxFlag == 1)
