@@ -3,7 +3,10 @@
 #include "LED.h"
 #include "OLED.h"
 
-uint8_t bodyDetect_flag;
+uint8_t BodyDetect_Flag = 0;
+LED_MODE Mode = AUTO;
+LED_STATE State = OFF;
+uint8_t Brightness;
 
 uint16_t year = 0;
 uint8_t month = 1;
@@ -13,9 +16,6 @@ uint8_t min = 0;
 uint8_t sec = 0;
 
 // TIM3用于实现计时，TIM4用于定时中断
-
-uint8_t PWM_flag = 0;
-uint8_t PWM_CCR = 0;
 
 void Timer_Init(void)
 {
@@ -66,7 +66,7 @@ void Timer_Init(void)
 
     // 使能定时器
     TIM_Cmd(TIM3, ENABLE);
-    //    TIM_Cmd(TIM4,ENABLE);
+    TIM_Cmd(TIM4, ENABLE);
 }
 
 // 计时
@@ -139,11 +139,52 @@ void TIM3_IRQHandler(void)
         month = 1;
         year++;
     }
+
+    // 显示时间
+    OLED_ShowNum(2, 6, year, 4);
+    OLED_ShowNum(2, 11, month, 2);
+    OLED_ShowNum(2, 14, day, 2);
+    OLED_ShowNum(3, 6, hour, 2);
+    OLED_ShowNum(3, 9, min, 2);
+    OLED_ShowNum(3, 12, sec, 2);
+
     TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 }
 
 void TIM4_IRQHandler(void)
 {
+    if (LsValue >= LS_EDGE_VALUE /*&& IsValue <= IS_EDGE_VALUE*/)
+        BodyDetect_Flag = 1;
+    else
+        BodyDetect_Flag = 0;
+
+    switch (Mode)
+    {
+    case AUTO:
+        Brightness = 100 * (LsValue - LS_EDGE_VALUE) / (LS_MAX_VALUE - LS_EDGE_VALUE);
+        if (BodyDetect_Flag == 1)
+            State = ON;
+        else
+            State = OFF;
+        break;
+    case MANUAL:
+        Brightness = 100;
+        break;
+    default:
+        break;
+    }
+
+    switch (State)
+    {
+    case ON:
+        LED_SetBrightness(Brightness);
+        break;
+    case OFF:
+        LED_TurnOff();
+        break;
+    default:
+        break;
+    }
 
     TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 }

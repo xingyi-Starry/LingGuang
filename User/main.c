@@ -29,9 +29,10 @@ int main(void)
 
 	while (1)
 	{
+		/*
 		if (key2_State == 1)
 		{
-			if (Sensor_Value[1] >= 2000 /*&& Sensor_Value[0] <= 3000*/)
+			if (Sensor_Value[1] >= 2000 /*&& Sensor_Value[0] <= 3000*)
 			{
 				OLED_ShowString(1, 11, "ON ");
 				PWM_SetBrightness(Sensor_Value[1] / 20 - 100);
@@ -54,7 +55,7 @@ int main(void)
 				OLED_ShowString(1, 11, "ON ");
 				PWM_SetBrightness(100);
 			}
-		}
+		}*/
 
 		if (Serial_RxFlag == 1)
 		{
@@ -76,12 +77,6 @@ int main(void)
 		}
 
 		OLED_ShowNum(1, 5, key2_State, 1);
-		OLED_ShowNum(2, 6, year, 4);
-		OLED_ShowNum(2, 11, month, 2);
-		OLED_ShowNum(2, 14, day, 2);
-		OLED_ShowNum(3, 6, hour, 2);
-		OLED_ShowNum(3, 9, min, 2);
-		OLED_ShowNum(3, 12, sec, 2);
 		OLED_ShowNum(4, 4, Sensor_Value[1], 4);
 		OLED_ShowNum(4, 11, Sensor_Value[0], 4);
 	}
