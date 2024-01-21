@@ -1,26 +1,28 @@
-#include "stm32f10x.h"                  // Device header
+#include "stm32f10x.h"
+#include "PWM.h"
 
-void LED_Init(void)
+#define LOWEST_BRI 100  // 最低亮度对应CCR
+#define HIGHEST_BRI 200 // 最高亮度对应CCR
+
+LED_Init(void)
 {
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	
-	GPIO_SetBits(GPIOA, GPIO_Pin_1);
+    PWM_Init();
 }
 
-void LED_Turn(void)
+/*取值从1到100, 为亮度, 若输入非正数则关闭灯光*/
+void LED_SetBrightness(uint16_t Brightness)
 {
-	if (GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_1) == 0)
-	{
-		GPIO_SetBits(GPIOA, GPIO_Pin_1);
-	}
-	else
-	{
-		GPIO_ResetBits(GPIOA, GPIO_Pin_1);
-	}
+    if (Brightness > 100)
+        Brightness = 100;
+    else if (Brightness <= 0)
+    {
+        TIM_SetCompare1(TIM2, 0);
+        return;
+    }
+    TIM_SetCompare1(TIM2, LOWEST_BRI + (HIGHEST_BRI - LOWEST_BRI) * Brightness / 100);
+}
+
+void LED_TurnOff(void)
+{
+    TIM_SetCompare1(TIM2, 0);
 }

@@ -1,5 +1,5 @@
-#ifndef __AD_H
-#define __AD_H
+#ifndef __SENSOR_H
+#define __SENSOR_H
 
 extern uint16_t Sensor_Value[];
 

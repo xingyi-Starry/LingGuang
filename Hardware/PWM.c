@@ -1,8 +1,4 @@
 /*PWM输出用于控制灯光, 于PA0口输出*/
-
-#define LOWEST_BRI 100   // 最低亮度对应CCR
-#define HIGHEST_BRI 200 // 最高亮度对应CCR
-
 #include "stm32f10x.h"
 
 void PWM_Init()
@@ -41,17 +37,4 @@ void PWM_Init()
 
     // 使能定时器
     TIM_Cmd(TIM2, ENABLE);
-}
-
-    /*取值从1到100, 为亮度, 若输入非正数则关闭灯光*/
-void PWM_SetBrightness(uint16_t Brightness)
-{
-    if (Brightness > 100)
-        Brightness = 100;
-    else if (Brightness <= 0)
-    {
-        TIM_SetCompare1(TIM2, 0);
-        return;
-    }
-    TIM_SetCompare1(TIM2, LOWEST_BRI + (HIGHEST_BRI - LOWEST_BRI) * Brightness / 100);
 }

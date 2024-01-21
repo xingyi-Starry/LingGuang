@@ -3,7 +3,7 @@
 #include "LED.h"
 #include "OLED.h"
 #include "Key.h"
-#include "PWM.h"
+#include "LED.h"
 #include "Timer.h"
 #include "Sensor.h"
 #include "Serial.h"
@@ -14,7 +14,7 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
 	Key_Init();
-	PWM_Init();
+	LED_Init();
 	OLED_Init();
 	Sensor_Init();
 	Timer_Init();
