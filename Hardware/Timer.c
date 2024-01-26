@@ -1,4 +1,5 @@
 #include "stm32f10x.h"
+#include "Timer.h"
 #include "Sensor.h"
 #include "LED.h"
 #include "OLED.h"
@@ -8,14 +9,32 @@ LED_MODE Mode = AUTO;
 LED_STATE State = OFF;
 uint8_t Brightness;
 
-uint16_t year = 0;
-uint8_t month = 1;
-uint8_t day = 1;
-uint8_t hour = 0;
-uint8_t min = 0;
-uint8_t sec = 0;
+Time time;
 
-// TIM3用于实现计时，TIM4用于定时中断
+/**
+ * @brief 时间结构体初始化函数
+ *
+ * @param time 需要初始化的时间结构体
+ * @param mode 初始化模式，DATE表示初始化为日期，TIMING表示初始化为计时器
+ * @note TimestructInit(&time, DATE)
+ */
+void TimestructInit(Time *time, TIME_MODE mode)
+{
+    time->year = 0;
+    time->hour = 0;
+    time->min = 0;
+    time->sec = 0;
+    if (mode == DATE)
+    {
+        time->month = 1;
+        time->day = 1;
+    }
+    else
+    {
+        time->month = 0;
+        time->day = 0;
+    }
+}
 
 void Timer_Init(void)
 {
@@ -67,28 +86,30 @@ void Timer_Init(void)
     // 使能定时器
     TIM_Cmd(TIM3, ENABLE);
     TIM_Cmd(TIM4, ENABLE);
+
+    TimestructInit(&time, DATE);
 }
 
 // 计时
 void TIM3_IRQHandler(void)
 {
-    sec++;
-    if (sec >= 60)
+    time.sec++;
+    if (time.sec >= 60)
     {
-        sec = 0;
-        min++;
+        time.sec = 0;
+        time.sec++;
     }
-    if (min >= 60)
+    if (time.min >= 60)
     {
-        min = 0;
-        hour++;
+        time.min = 0;
+        time.hour++;
     }
-    if (hour >= 24)
+    if (time.hour >= 24)
     {
-        hour = 0;
-        day++;
+        time.hour = 0;
+        time.day++;
     }
-    switch (month)
+    switch (time.month)
     {
     case 1:
     case 3:
@@ -97,60 +118,61 @@ void TIM3_IRQHandler(void)
     case 8:
     case 10:
     case 12:
-        if (day > 31)
+        if (time.day > 31)
         {
-            day = 1;
-            month++;
+            time.day = 1;
+            time.month++;
         }
         break;
     case 4:
     case 6:
     case 9:
     case 11:
-        if (day > 30)
+        if (time.day > 30)
         {
-            day = 1;
-            month++;
+            time.day = 1;
+            time.month++;
         }
     case 2:
-        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+        if (time.year % 4 == 0 && time.year % 100 != 0 || time.year % 400 == 0)
         {
-            if (day > 29)
+            if (time.day > 29)
             {
-                day = 1;
-                month++;
+                time.day = 1;
+                time.month++;
             }
         }
         else
         {
-            if (day > 28)
+            if (time.day > 28)
             {
-                day = 1;
-                month++;
+                time.day = 1;
+                time.month++;
             }
             break;
         }
     default:
-        month = 1;
+        time.month = 1;
         break;
     }
-    if (month > 12)
+    if (time.month > 12)
     {
-        month = 1;
-        year++;
+        time.month = 1;
+        time.year++;
     }
 
     // 显示时间
-    OLED_ShowNum(2, 6, year, 4);
-    OLED_ShowNum(2, 11, month, 2);
-    OLED_ShowNum(2, 14, day, 2);
-    OLED_ShowNum(3, 6, hour, 2);
-    OLED_ShowNum(3, 9, min, 2);
-    OLED_ShowNum(3, 12, sec, 2);
+    OLED_ShowNum(2, 6, time.year, 4);
+    OLED_ShowNum(2, 11, time.month, 2);
+    OLED_ShowNum(2, 14, time.day, 2);
+    OLED_ShowNum(3, 6, time.hour, 2);
+    OLED_ShowNum(3, 9, time.min, 2);
+    OLED_ShowNum(3, 12, time.sec, 2);
 
     TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 }
 
+// 定时中断
 void TIM4_IRQHandler(void)
 {
     if (LsValue >= LS_EDGE_VALUE /*&& IsValue <= IS_EDGE_VALUE*/)

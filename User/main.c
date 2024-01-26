@@ -62,12 +62,12 @@ int main(void)
 
 			if (Serial_RxPacket[4] == '/' && Serial_RxPacket[7] == '/' && Serial_RxPacket[10] == '/' && Serial_RxPacket[13] == ':' && Serial_RxPacket[16] == ':')
 			{
-				year = (Serial_RxPacket[0] - '0') * 1000 + (Serial_RxPacket[1] - '0') * 100 + (Serial_RxPacket[2] - '0') * 10 + (Serial_RxPacket[3] - '0');
-				month = (Serial_RxPacket[5] - '0') * 10 + (Serial_RxPacket[6] - '0');
-				day = (Serial_RxPacket[8] - '0') * 10 + (Serial_RxPacket[9] - '0');
-				hour = (Serial_RxPacket[11] - '0') * 10 + (Serial_RxPacket[12] - '0');
-				min = (Serial_RxPacket[14] - '0') * 10 + (Serial_RxPacket[15] - '0');
-				sec = (Serial_RxPacket[17] - '0') * 10 + (Serial_RxPacket[18] - '0');
+				time.year = (Serial_RxPacket[0] - '0') * 1000 + (Serial_RxPacket[1] - '0') * 100 + (Serial_RxPacket[2] - '0') * 10 + (Serial_RxPacket[3] - '0');
+				time.month = (Serial_RxPacket[5] - '0') * 10 + (Serial_RxPacket[6] - '0');
+				time.day = (Serial_RxPacket[8] - '0') * 10 + (Serial_RxPacket[9] - '0');
+				time.hour = (Serial_RxPacket[11] - '0') * 10 + (Serial_RxPacket[12] - '0');
+				time.min = (Serial_RxPacket[14] - '0') * 10 + (Serial_RxPacket[15] - '0');
+				time.sec = (Serial_RxPacket[17] - '0') * 10 + (Serial_RxPacket[18] - '0');
 			}
 			else
 			{
