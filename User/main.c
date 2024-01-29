@@ -59,8 +59,10 @@ int main(void)
 			}
 		}*/
 
+		// 接受串口指令
 		if (Serial_RxFlag == 1)
 		{
+			// 输入时间
 			if (Serial_RxPacket[4] == '/' && Serial_RxPacket[7] == '/' && Serial_RxPacket[10] == '/' && Serial_RxPacket[13] == ':' && Serial_RxPacket[16] == ':')
 			{
 				if (Timer_SetTime(&time, Serial_RxPacket) == 1)
@@ -68,15 +70,33 @@ int main(void)
 				else
 					Serial_SendString("Time set success\r\n");
 			}
+			// 切换模式
 			else if (strcmp(Serial_RxPacket, "SwitchMode") == 0)
 			{
 				LED_SwitchMode();
-				Serial_SendString("Switch mode success\r\n");
+				Serial_SendString("Mode switch successful\r\n");
 			}
-			else
+			// 切换状态
+			else if (strcmp(Serial_RxPacket, "SwitchState") == 0)
 			{
-				Serial_SendString("Wrong Command\r\n");
+				if (LED_SwitchState() == 1)
+					Serial_SendString("Error: please switch to mannual mode first\r\n");
+				else 
+					Serial_SendString("State switch successful\r\n");
 			}
+			// 获取学习时间
+			else if (strcmp(Serial_RxPacket, "GetLearningTime") == 0)
+			{
+				Serial_SendNumber(timing.hour);
+				Serial_SendString(":");
+				Serial_SendNumber(timing.min);
+				Serial_SendString(":");
+				Serial_SendNumber(timing.sec);
+				Serial_SendString("\r\n");
+			}
+			// 错误命令
+			else			
+				Serial_SendString("Error Command\r\n");
 			Serial_RxFlag = 0;
 		}
 
