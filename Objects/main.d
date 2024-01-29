@@ -32,7 +32,6 @@
 .\objects\main.o: .\Hardware\LED.h
 .\objects\main.o: .\Hardware\OLED.h
 .\objects\main.o: .\Hardware\Key.h
-.\objects\main.o: .\Hardware\PWM.h
 .\objects\main.o: .\Hardware\Timer.h
 .\objects\main.o: .\Hardware\Sensor.h
 .\objects\main.o: .\Hardware\Serial.h

@@ -28,6 +28,7 @@
 .\objects\timer.o: .\Library\stm32f10x_usart.h
 .\objects\timer.o: .\Library\stm32f10x_wwdg.h
 .\objects\timer.o: .\Library\misc.h
+.\objects\timer.o: Hardware\Timer.h
+.\objects\timer.o: Hardware\Sensor.h
 .\objects\timer.o: Hardware\LED.h
-.\objects\timer.o: Hardware\PWM.h
 .\objects\timer.o: Hardware\OLED.h

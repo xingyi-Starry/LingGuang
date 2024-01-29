@@ -16,6 +16,7 @@ typedef enum
     ON
 } LED_STATE;
 
+void LED_Init(void);
 void LED_SetBrightness(uint16_t Brightness);
 void LED_TurnOff(void);
 

@@ -28,3 +28,5 @@
 .\objects\led.o: .\Library\stm32f10x_usart.h
 .\objects\led.o: .\Library\stm32f10x_wwdg.h
 .\objects\led.o: .\Library\misc.h
+.\objects\led.o: Hardware\PWM.h
+.\objects\led.o: Hardware\LED.h
