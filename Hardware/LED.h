@@ -25,7 +25,7 @@ typedef enum
 } LED_STATE;
 
 void LED_SwitchMode(void);
-void LED_SwitchState(void);
+uint8_t LED_SwitchState(void);
 void LED_Init(void);
 void LED_SetBrightness(uint16_t Brightness);
 void LED_TurnOff(void);

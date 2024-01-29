@@ -21,4 +21,6 @@ void Timer_TimestructInit(Time *time, TIME_MODE mode);
 uint8_t Timer_SetTime(Time *time, char *src);
 void Timer_Init(void);
 
+extern Time time;
+extern Time timing;
 #endif

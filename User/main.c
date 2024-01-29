@@ -1,3 +1,4 @@
+#include <string.h>
 #include "stm32f10x.h" // Device header
 #include "Delay.h"
 #include "LED.h"
@@ -7,8 +8,6 @@
 #include "Timer.h"
 #include "Sensor.h"
 #include "Serial.h"
-
-extern Time time;
 
 int main(void)
 {
@@ -26,8 +25,9 @@ int main(void)
 	OLED_ShowString(1, 8, "Sta:");
 	OLED_ShowString(2, 1, "Date:0000/00/00");
 	OLED_ShowString(3, 1, "Time:00:00:00");
-	OLED_ShowString(4, 1, "Ls:");
-	OLED_ShowString(4, 8, "Is:");
+	OLED_ShowString(4, 1, "00:00:00");
+//	OLED_ShowString(4, 1, "Ls:");
+//	OLED_ShowString(4, 8, "Is:");
 
 	while (1)
 	{
@@ -61,27 +61,29 @@ int main(void)
 
 		if (Serial_RxFlag == 1)
 		{
-
 			if (Serial_RxPacket[4] == '/' && Serial_RxPacket[7] == '/' && Serial_RxPacket[10] == '/' && Serial_RxPacket[13] == ':' && Serial_RxPacket[16] == ':')
 			{
-				time.year = (Serial_RxPacket[0] - '0') * 1000 + (Serial_RxPacket[1] - '0') * 100 + (Serial_RxPacket[2] - '0') * 10 + (Serial_RxPacket[3] - '0');
-				time.month = (Serial_RxPacket[5] - '0') * 10 + (Serial_RxPacket[6] - '0');
-				time.day = (Serial_RxPacket[8] - '0') * 10 + (Serial_RxPacket[9] - '0');
-				time.hour = (Serial_RxPacket[11] - '0') * 10 + (Serial_RxPacket[12] - '0');
-				time.min = (Serial_RxPacket[14] - '0') * 10 + (Serial_RxPacket[15] - '0');
-				time.sec = (Serial_RxPacket[17] - '0') * 10 + (Serial_RxPacket[18] - '0');
+				if (Timer_SetTime(&time, Serial_RxPacket) == 1)
+					Serial_SendString("Wrong time\r\n");
+				else
+					Serial_SendString("Time set success\r\n");
+			}
+			else if (strcmp(Serial_RxPacket, "SwitchMode") == 0)
+			{
+				LED_SwitchMode();
+				Serial_SendString("Switch mode success\r\n");
 			}
 			else
 			{
-				Serial_SendString("Wrong Command");
+				Serial_SendString("Wrong Command\r\n");
 			}
 			Serial_RxFlag = 0;
 		}
 
 		OLED_ShowNum(1, 6, Mode, 1);
 		OLED_ShowNum(1, 12, State, 1);
-		OLED_ShowNum(4, 4, LsValue, 4);
-		OLED_ShowNum(4, 11, IsValue, 4);
+//		OLED_ShowNum(4, 4, LsValue, 4);
+//		OLED_ShowNum(4, 11, IsValue, 4);
 		// 显示时间
 		OLED_ShowNum(2, 6, time.year, 4);
 		OLED_ShowNum(2, 11, time.month, 2);
@@ -89,5 +91,10 @@ int main(void)
 		OLED_ShowNum(3, 6, time.hour, 2);
 		OLED_ShowNum(3, 9, time.min, 2);
 		OLED_ShowNum(3, 12, time.sec, 2);
+
+		// 计时显示
+		OLED_ShowNum(4, 1, timing.hour, 2);
+		OLED_ShowNum(4, 4, timing.min, 2);
+		OLED_ShowNum(4, 7, timing.sec, 2);
 	}
 }

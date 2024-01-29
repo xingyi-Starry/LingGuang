@@ -99,7 +99,10 @@ uint8_t Serial_GetRxFlag(void)
     return 0;
 }*/
 
-/*接收中断函数*/
+/**
+ * @brief 串口接收中断函数，数据包包头为'@'，包尾为"\r\n"，即回车
+ * 
+ */
 void USART1_IRQHandler(void)
 {
     static uint8_t RxState = 0;
@@ -111,8 +114,9 @@ void USART1_IRQHandler(void)
         switch (RxState)
         {
         case 0:
-            if (RxData == '@' && Serial_RxFlag == 0)
+            if (RxData == '@')
             {
+                Serial_RxFlag = 0;
                 pRxPacket = 0;
                 RxState = 1;
             }

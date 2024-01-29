@@ -4,9 +4,10 @@
 #include "LED.h"
 
 uint8_t BodyDetect_Flag = 0;
+uint8_t Light_Flag = 0;
 uint8_t Brightness;
-
 Time time;
+Time timing;
 
 /**
  * @brief 时间结构体初始化函数
@@ -66,10 +67,6 @@ void Timer_SetSec(Time *time, uint8_t sec)
 /**
  * @brief 设定时间函数，从指定字符串src设定时间
  *
-
-void Timer_TimestructInit(Time * time, TIME_MODE mode)
-{
-}
  * @param time 待设定的时间结构体
  * @param src 时间源字符串，格式为 "AAAA/BB/CC/DD\:EE\:FF"，其中AAAA表年，BB表月，CC表日，DD表时，EE表分，FF表秒
  * @return uint8_t flag 当字符串格式不正确时返回1，否则返回0
@@ -86,7 +83,7 @@ uint8_t Timer_SetTime(Time *time, char *src)
         time->min = (src[14] - '0') * 10 + (src[15] - '0');
         time->sec = (src[17] - '0') * 10 + (src[18] - '0');
     }
-    else 
+    else
         return 1;
     return 0;
 }
@@ -144,11 +141,13 @@ void Timer_Init(void)
 
     // 初始化时间
     Timer_TimestructInit(&time, DATE);
+    Timer_TimestructInit(&timing, TIMING);
 }
 
 // 计时
 void TIM3_IRQHandler(void)
 {
+    // 时间计时
     time.sec++;
     if (time.sec >= 60)
     {
@@ -164,6 +163,7 @@ void TIM3_IRQHandler(void)
     {
         time.hour = 0;
         time.day++;
+        Timer_TimestructInit(&timing, TIMING);
     }
     switch (time.month)
     {
@@ -217,22 +217,41 @@ void TIM3_IRQHandler(void)
         time.year++;
     }
 
+    // 学习时间计时
+    if (BodyDetect_Flag == 1)
+        timing.sec++;
+    if (timing.sec >= 60)
+    {
+        timing.sec = 0;
+        timing.min++;
+    }
+    if (timing.min >= 60)
+    {
+        timing.min = 0;
+        timing.hour++;
+    }
+
     TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 }
 
 // 定时中断
 void TIM4_IRQHandler(void)
 {
-    if (LsValue >= LS_EDGE_VALUE /*&& IsValue <= IS_EDGE_VALUE*/)
+    if (IsValue >= IS_EDGE_VALUE)
         BodyDetect_Flag = 1;
     else
         BodyDetect_Flag = 0;
+
+    if (LsValue >= LS_EDGE_VALUE)
+        Light_Flag = 1;
+    else
+        Light_Flag = 0;
 
     switch (Mode)
     {
     case AUTO:
         Brightness = 100 * (LsValue - LS_EDGE_VALUE) / (LS_MAX_VALUE - LS_EDGE_VALUE);
-        if (BodyDetect_Flag == 1)
+        if (BodyDetect_Flag == 1 && Light_Flag == 1)
             State = ON;
         else
             State = OFF;
