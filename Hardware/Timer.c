@@ -2,11 +2,8 @@
 #include "Timer.h"
 #include "Sensor.h"
 #include "LED.h"
-#include "OLED.h"
 
 uint8_t BodyDetect_Flag = 0;
-LED_MODE Mode = AUTO;
-LED_STATE State = OFF;
 uint8_t Brightness;
 
 Time time;
@@ -18,7 +15,7 @@ Time time;
  * @param mode 初始化模式，DATE表示初始化为日期，TIMING表示初始化为计时器
  * @note TimestructInit(&time, DATE)
  */
-void TimestructInit(Time *time, TIME_MODE mode)
+void Timer_TimestructInit(Time *time, TIME_MODE mode)
 {
     time->year = 0;
     time->hour = 0;
@@ -34,6 +31,64 @@ void TimestructInit(Time *time, TIME_MODE mode)
         time->month = 0;
         time->day = 0;
     }
+}
+
+void Timer_SetYear(Time *time, uint16_t year)
+{
+    time->year = year;
+}
+
+void Timer_SetMonth(Time *time, uint8_t month)
+{
+    time->month = month;
+}
+
+void Timer_SetDay(Time *time, uint8_t day)
+{
+    time->day = day;
+}
+
+void Timer_SetHour(Time *time, uint8_t hour)
+{
+    time->hour = hour;
+}
+
+void Timer_SetMin(Time *time, uint8_t min)
+{
+    time->min = min;
+}
+
+void Timer_SetSec(Time *time, uint8_t sec)
+{
+    time->sec = sec;
+}
+
+/**
+ * @brief 设定时间函数，从指定字符串src设定时间
+ *
+
+void Timer_TimestructInit(Time * time, TIME_MODE mode)
+{
+}
+ * @param time 待设定的时间结构体
+ * @param src 时间源字符串，格式为 "AAAA/BB/CC/DD\:EE\:FF"，其中AAAA表年，BB表月，CC表日，DD表时，EE表分，FF表秒
+ * @return uint8_t flag 当字符串格式不正确时返回1，否则返回0
+ * @note Timer_SetTime(time, Serial_RxPacket)
+ */
+uint8_t Timer_SetTime(Time *time, char *src)
+{
+    if (src[4] == '/' && src[7] == '/' && src[10] == '/' && src[13] == ':' && src[16] == ':')
+    {
+        time->year = (src[0] - '0') * 1000 + (src[1] - '0') * 100 + (src[2] - '0') * 10 + (src[3] - '0');
+        time->month = (src[5] - '0') * 10 + (src[6] - '0');
+        time->day = (src[8] - '0') * 10 + (src[9] - '0');
+        time->hour = (src[11] - '0') * 10 + (src[12] - '0');
+        time->min = (src[14] - '0') * 10 + (src[15] - '0');
+        time->sec = (src[17] - '0') * 10 + (src[18] - '0');
+    }
+    else 
+        return 1;
+    return 0;
 }
 
 void Timer_Init(void)
@@ -87,7 +142,8 @@ void Timer_Init(void)
     TIM_Cmd(TIM3, ENABLE);
     TIM_Cmd(TIM4, ENABLE);
 
-    TimestructInit(&time, DATE);
+    // 初始化时间
+    Timer_TimestructInit(&time, DATE);
 }
 
 // 计时
@@ -97,7 +153,7 @@ void TIM3_IRQHandler(void)
     if (time.sec >= 60)
     {
         time.sec = 0;
-        time.sec++;
+        time.min++;
     }
     if (time.min >= 60)
     {
@@ -160,14 +216,6 @@ void TIM3_IRQHandler(void)
         time.month = 1;
         time.year++;
     }
-
-    // 显示时间
-    OLED_ShowNum(2, 6, time.year, 4);
-    OLED_ShowNum(2, 11, time.month, 2);
-    OLED_ShowNum(2, 14, time.day, 2);
-    OLED_ShowNum(3, 6, time.hour, 2);
-    OLED_ShowNum(3, 9, time.min, 2);
-    OLED_ShowNum(3, 12, time.sec, 2);
 
     TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 }

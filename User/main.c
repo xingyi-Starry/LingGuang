@@ -8,6 +8,8 @@
 #include "Sensor.h"
 #include "Serial.h"
 
+extern Time time;
+
 int main(void)
 {
 	/*NVIC优先级分组*/
@@ -20,8 +22,8 @@ int main(void)
 	Timer_Init();
 	Serial_Init();
 
-	OLED_ShowString(1, 1, "Sta:");
-	OLED_ShowString(1, 7, "Swi:");
+	OLED_ShowString(1, 1, "Mode:");
+	OLED_ShowString(1, 8, "Sta:");
 	OLED_ShowString(2, 1, "Date:0000/00/00");
 	OLED_ShowString(3, 1, "Time:00:00:00");
 	OLED_ShowString(4, 1, "Ls:");
@@ -76,8 +78,16 @@ int main(void)
 			Serial_RxFlag = 0;
 		}
 
-		OLED_ShowNum(1, 5, key2_State, 1);
-		OLED_ShowNum(4, 4, Sensor_Value[1], 4);
-		OLED_ShowNum(4, 11, Sensor_Value[0], 4);
+		OLED_ShowNum(1, 6, Mode, 1);
+		OLED_ShowNum(1, 12, State, 1);
+		OLED_ShowNum(4, 4, LsValue, 4);
+		OLED_ShowNum(4, 11, IsValue, 4);
+		// 显示时间
+		OLED_ShowNum(2, 6, time.year, 4);
+		OLED_ShowNum(2, 11, time.month, 2);
+		OLED_ShowNum(2, 14, time.day, 2);
+		OLED_ShowNum(3, 6, time.hour, 2);
+		OLED_ShowNum(3, 9, time.min, 2);
+		OLED_ShowNum(3, 12, time.sec, 2);
 	}
 }

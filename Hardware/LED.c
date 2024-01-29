@@ -2,6 +2,25 @@
 #include "PWM.h"
 #include "LED.h"
 
+LED_MODE Mode = AUTO;
+LED_STATE State = OFF;
+
+void LED_SwitchMode(void)
+{
+    if (Mode == AUTO)
+        Mode = MANUAL;
+    else
+        Mode = AUTO;
+}
+
+void LED_SwitchState(void)
+{
+    if (State == OFF)
+        State = ON;
+    else
+        State = OFF;
+}
+
 void LED_Init(void)
 {
     PWM_Init();

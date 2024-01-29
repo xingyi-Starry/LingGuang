@@ -6,7 +6,7 @@
 #define LS_MAX_VALUE 4000 // 光敏最大值
 #define IS_MAX_VALUE 4000 // 红外最大值
 #define LsValue Sensor_Value[1] // 光敏传感器数值
-#define IsVlaue Sensor_Value[0] // 红外传感器数值
+#define IsValue Sensor_Value[0] // 红外传感器数值
 
 extern uint16_t Sensor_Value[];
 

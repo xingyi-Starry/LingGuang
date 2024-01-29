@@ -1,10 +1,7 @@
 #include "stm32f10x.h"                  // Device header
+#include "Timer.h"
+#include "LED.h"
 #include "Delay.h"
-
-/*在手动模式下可用, 1表示开灯, 0表示关灯*/
-uint8_t key1_Switch = 0;
-/*表示当前模式, 0表示手动模式, 1表示自动模式*/
-uint8_t key2_State = 0;
 
 void Key_Init(void)
 {
@@ -54,17 +51,9 @@ void Key_Init(void)
 
 void EXTI1_IRQHandler(void)
 {
-    if (EXTI_GetITStatus(EXTI_Line1) == SET && key2_State == 0)
+    if (EXTI_GetITStatus(EXTI_Line1) == SET && Mode == MANUAL)
     {
-        if (key1_Switch == 0)
-        {
-            key1_Switch = 1;
-        }
-        else 
-        {
-            key1_Switch = 0;
-        }
-
+        LED_SwitchState();
 		Delay_ms(10);
 		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) == 0);
 		Delay_ms(10);
@@ -76,16 +65,7 @@ void EXTI15_10_IRQHandler(void)
 {    
     if (EXTI_GetITStatus(EXTI_Line12) == SET)
     {
-        if (key2_State == 0)
-        {
-            key2_State = 1;
-        }
-        else 
-        {
-            key2_State = 0;
-            key1_Switch = 0;
-        }
-
+        LED_SwitchMode();
 		Delay_ms(10);
 		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == 1);
 		Delay_ms(10);

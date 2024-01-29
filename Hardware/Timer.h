@@ -17,8 +17,8 @@ typedef enum
     TIMING = 0x01
 } TIME_MODE;
 
-void TimestructInit(Time *time, TIME_MODE mode);
+void Timer_TimestructInit(Time *time, TIME_MODE mode);
+uint8_t Timer_SetTime(Time *time, char *src);
 void Timer_Init(void);
 
-extern Time time;
 #endif

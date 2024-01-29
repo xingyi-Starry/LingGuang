@@ -31,4 +31,3 @@
 .\objects\timer.o: Hardware\Timer.h
 .\objects\timer.o: Hardware\Sensor.h
 .\objects\timer.o: Hardware\LED.h
-.\objects\timer.o: Hardware\OLED.h
