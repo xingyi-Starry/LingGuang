@@ -1,4 +1,5 @@
 #include "stm32f10x.h"
+#include "Serial.h"
 
 char Serial_RxPacket[100];
 uint8_t Serial_RxFlag;
@@ -13,12 +14,12 @@ void Serial_Init(void)
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_StructInit(&GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_3;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
@@ -32,9 +33,11 @@ void Serial_Init(void)
     USART_InitStructure.USART_StopBits = USART_StopBits_1; //停止位长度
     USART_InitStructure.USART_WordLength = USART_WordLength_8b; //字长(数据长度+校验位长度)
     USART_Init(USART1, &USART_InitStructure);
+    USART_Init(USART2, &USART_InitStructure);
 
     /*开启USART中断通道*/
     USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 
     /*NVIC初始化*/
     NVIC_InitTypeDef NVIC_InitStructure;
@@ -44,36 +47,43 @@ void Serial_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_Init(&NVIC_InitStructure);
 
+    NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+    NVIC_Init(&NVIC_InitStructure);
+
     /*使能USART*/
     USART_Cmd(USART1, ENABLE);
+    USART_Cmd(USART2, ENABLE);
 }
 
-void Serial_SendByte(uint8_t Byte)
+void Serial_SendByte(uint8_t Byte, USART_TypeDef *Serial)
 {
-    USART_SendData(USART1, Byte);
+    USART_SendData(Serial, Byte);
     /*等待数据写入移位寄存器*/
-    while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET); //TXE在数据转移到移位寄存器后置1(SET), 在对寄存器进行写操作后自动清零(RESET), 因此不用手动清零
+    while (USART_GetFlagStatus(Serial, USART_FLAG_TXE) == RESET); //TXE在数据转移到移位寄存器后置1(SET), 在对寄存器进行写操作后自动清零(RESET), 因此不用手动清零
 }
 
-void Serial_SendArray(uint8_t *array, uint16_t length)
+void Serial_SendArray(uint8_t *array, uint16_t length, USART_TypeDef *Serial)
 {
     uint16_t i;
     for (i = 0; i < length; i++)
     {
-        Serial_SendByte(array[i]);
+        Serial_SendByte(array[i], Serial);
     }
 }
 
-void Serial_SendString(char *str)
+void Serial_SendString(char *str, USART_TypeDef *Serial)
 {
     uint8_t i;
     for (i = 0; str[i] != 0; i++)
     {
-        Serial_SendByte(str[i]);
+        Serial_SendByte(str[i], Serial);
     }
 }
 
-void Serial_SendNumber(uint32_t num)
+void Serial_SendNumber(uint32_t num, USART_TypeDef *Serial)
 {
     uint32_t bit = 1;
     for (uint32_t temp = num; temp >= 10; bit *= 10)
@@ -83,7 +93,7 @@ void Serial_SendNumber(uint32_t num)
 
     for (; bit > 0; bit /= 10)
     {
-        Serial_SendByte(num / bit + '0');
+        Serial_SendByte(num / bit + '0', Serial);
         num %= bit;
     }
 }
@@ -100,7 +110,7 @@ uint8_t Serial_GetRxFlag(void)
 }*/
 
 /**
- * @brief 串口接收中断函数，数据包包头为'@'，包尾为"\r\n"，即回车
+ * @brief 蓝牙串口接收中断函数，数据包包头为'@'，包尾为"\r\n"，即回车
  * 
  */
 void USART1_IRQHandler(void)
