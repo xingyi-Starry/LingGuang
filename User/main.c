@@ -59,46 +59,7 @@ int main(void)
 			}
 		}*/
 
-		// 接受串口指令
-		if (Serial_RxFlag == 1)
-		{
-			// 输入时间
-			if (Serial_RxPacket[4] == '/' && Serial_RxPacket[7] == '/' && Serial_RxPacket[10] == '/' && Serial_RxPacket[13] == ':' && Serial_RxPacket[16] == ':')
-			{
-				if (Timer_SetTime(&time, Serial_RxPacket) == 1)
-					Serial_SendString("Wrong time\r\n", SERIAL_BT);
-				else
-					Serial_SendString("Time set success\r\n", SERIAL_BT);
-			}
-			// 切换模式
-			else if (strcmp(Serial_RxPacket, "SwitchMode") == 0)
-			{
-				LED_SwitchMode();
-				Serial_SendString("Mode switch successful\r\n", SERIAL_BT);
-			}
-			// 切换状态
-			else if (strcmp(Serial_RxPacket, "SwitchState") == 0)
-			{
-				if (LED_SwitchState() == 1)
-					Serial_SendString("Error: please switch to mannual mode first\r\n", SERIAL_BT);
-				else 
-					Serial_SendString("State switch successful\r\n", SERIAL_BT);
-			}
-			// 获取学习时间
-			else if (strcmp(Serial_RxPacket, "GetLearningTime") == 0)
-			{
-				Serial_SendNumber(timing.hour, SERIAL_BT);
-				Serial_SendString(":", SERIAL_BT);
-				Serial_SendNumber(timing.min, SERIAL_BT);
-				Serial_SendString(":", SERIAL_BT);
-				Serial_SendNumber(timing.sec, SERIAL_BT);
-				Serial_SendString("\r\n", SERIAL_BT);
-			}
-			// 错误命令
-			else			
-				Serial_SendString("Error Command\r\n", SERIAL_BT);
-			Serial_RxFlag = 0;
-		}
+
 
 		OLED_ShowNum(1, 6, Mode, 1);
 		OLED_ShowNum(1, 12, State, 1);

@@ -21,6 +21,9 @@ void Timer_TimestructInit(Time *time, TIME_MODE mode);
 uint8_t Timer_SetTime(Time *time, char *src);
 void Timer_Init(void);
 
+extern uint8_t BodyDetect_Flag;
+extern uint8_t Light_Flag;
+extern uint8_t Brightness;
 extern Time time;
 extern Time timing;
 #endif

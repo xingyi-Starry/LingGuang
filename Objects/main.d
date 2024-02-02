@@ -36,4 +36,3 @@
 .\objects\main.o: .\Hardware\Timer.h
 .\objects\main.o: .\Hardware\Sensor.h
 .\objects\main.o: .\Hardware\Serial.h
-.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
