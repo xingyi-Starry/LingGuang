@@ -906,7 +906,7 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 F (.\Hardware\PWM.h)(0x65B7103D)()
-F (.\Hardware\Serial.c)(0x65BCB0B1)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\serial.o --omf_browse .\objects\serial.crf --depend .\objects\serial.d)
+F (.\Hardware\Serial.c)(0x65C04F26)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\serial.o --omf_browse .\objects\serial.crf --depend .\objects\serial.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
@@ -936,9 +936,9 @@ I (.\Library\stm32f10x_tim.h)(0x655B3746)
 I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
-I (Hardware\Serial.h)(0x65BCAFB7)
+I (Hardware\Serial.h)(0x65BF899C)
 I (Hardware\Timer.h)(0x65BCB014)
-F (.\Hardware\Serial.h)(0x65BCAFB7)()
+F (.\Hardware\Serial.h)(0x65BF899C)()
 F (.\Hardware\Sensor.c)(0x65B7103D)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\sensor.o --omf_browse .\objects\sensor.crf --depend .\objects\sensor.d)
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
@@ -1037,7 +1037,7 @@ I (.\Hardware\OLED.h)(0x65224F8A)
 I (.\Hardware\Key.h)(0x65B71FD7)
 I (.\Hardware\Timer.h)(0x65BCB014)
 I (.\Hardware\Sensor.h)(0x65B711EE)
-I (.\Hardware\Serial.h)(0x65BCAFB7)
+I (.\Hardware\Serial.h)(0x65BF899C)
 F (.\User\stm32f10x_conf.h)(0x65224F8B)()
 F (.\User\stm32f10x_it.c)(0x65224F8B)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\stm32f10x_it.o --omf_browse .\objects\stm32f10x_it.crf --depend .\objects\stm32f10x_it.d)
 I (User\stm32f10x_it.h)(0x65224F8B)
@@ -1070,7 +1070,7 @@ I (.\Library\stm32f10x_usart.h)(0x655B3746)
 I (.\Library\stm32f10x_wwdg.h)(0x655B3746)
 I (.\Library\misc.h)(0x655B3746)
 F (.\User\stm32f10x_it.h)(0x65224F8B)()
-F (.\User\isr.c)(0x65BCB0B1)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\isr.o --omf_browse .\objects\isr.crf --depend .\objects\isr.d)
+F (.\User\isr.c)(0x65BF94D7)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\isr.o --omf_browse .\objects\isr.crf --depend .\objects\isr.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (.\Start\stm32f10x.h)(0x655B3746)
 I (.\Start\core_cm3.h)(0x655B3746)
@@ -1106,5 +1106,5 @@ I (.\Hardware\OLED.h)(0x65224F8A)
 I (.\Hardware\Key.h)(0x65B71FD7)
 I (.\Hardware\Timer.h)(0x65BCB014)
 I (.\Hardware\Sensor.h)(0x65B711EE)
-I (.\Hardware\Serial.h)(0x65BCAFB7)
+I (.\Hardware\Serial.h)(0x65BF899C)
 F (.\User\isr.h)(0x65BCAF47)()

@@ -50,7 +50,7 @@ void Serial_CmdHandler(char *RxPacket)
     }
     // 错误命令
     else
-        Serial_SendString("Error Command\r\n", SERIAL_BT);
+        Serial_SendString("Error Command\r\n", SERIAL_VOICE);
 }
 
 // 计时
@@ -207,7 +207,6 @@ void USART1_IRQHandler(void)
         case 0:
             if (RxData == '@')
             {
-                // Flag_BTNE = 0;
                 pRxPacket = 0;
                 RxState = 1;
             }
@@ -228,7 +227,6 @@ void USART1_IRQHandler(void)
             {
                 RxState = 0;
                 BT_RxPacket[pRxPacket] = '\0';
-                Flag_BTNE = 1;
                 Serial_CmdHandler(BT_RxPacket);
             }
             break;
@@ -237,5 +235,53 @@ void USART1_IRQHandler(void)
         }
 
         USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+    }
+}
+
+/**
+ * @brief 语音串口接收中断函数，数据包包头为'@'，包尾为"\r\n"，即回车
+ *
+ */
+void USART2_IRQHandler(void)
+{
+    static uint8_t RxState = 0;
+    static uint8_t pRxPacket = 0;
+    if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET)
+    {
+        uint8_t RxData = USART_ReceiveData(USART2);
+
+        switch (RxState)
+        {
+        case 0:
+            if (RxData == '@')
+            {
+                pRxPacket = 0;
+                RxState = 1;
+            }
+            break;
+        case 1:
+            if (RxData == '\r')
+            {
+                RxState = 2;
+            }
+            else
+            {
+                Voice_RxPacket[pRxPacket] = RxData;
+                pRxPacket++;
+            }
+            break;
+        case 2:
+            if (RxData == '\n')
+            {
+                RxState = 0;
+                Voice_RxPacket[pRxPacket] = '\0';
+                Serial_CmdHandler(Voice_RxPacket);
+            }
+            break;
+        default:
+            break;
+        }
+
+        USART_ClearITPendingBit(USART2, USART_IT_RXNE);
     }
 }

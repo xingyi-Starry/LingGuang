@@ -15,7 +15,5 @@ uint8_t Serial_RefreshCmdCache(void);
 
 extern char BT_RxPacket[30];
 extern char Voice_RxPacket[30];
-extern uint8_t Flag_BTNE;
-extern uint8_t Flag_VoiceNE;
 
 #endif

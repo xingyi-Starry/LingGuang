@@ -5,13 +5,12 @@
 
 char BT_RxPacket[30];
 char Voice_RxPacket[30];
-uint8_t Flag_BTNE;
-uint8_t Flag_VoiceNE;
 
 void Serial_Init(void)
 {
     /*开启外设时钟*/
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     /*GPIO初始化*/
@@ -54,7 +53,7 @@ void Serial_Init(void)
     NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_Init(&NVIC_InitStructure);
 
     /*使能USART*/
@@ -138,7 +137,3 @@ uint8_t Serial_RefreshCmdCache(void)
     }
     return 0;
 } */
-
-
-
-
