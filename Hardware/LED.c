@@ -4,6 +4,34 @@
 
 LED_MODE Mode = AUTO;
 LED_STATE State = OFF;
+uint8_t Man_Bri = 100;
+
+/**
+ * @brief LED初始化
+ * 
+ */
+void LED_Init(void)
+{
+    PWM_Init();
+}
+
+/**
+ * @brief 切换至自动模式
+ * 
+ */
+void LED_AutoMode(void)
+{
+    Mode = AUTO;
+}
+
+/**
+ * @brief 切换至手动模式
+ * 
+ */
+void LED_ManualMode(void)
+{
+    Mode = MANUAL;
+}
 
 /**
  * @brief LED模式切换函数，可在手动模式和自动模式间切换
@@ -18,8 +46,9 @@ void LED_SwitchMode(void)
 }
 
 /**
- * @brief LED状态切换函数，只在手动模式下有效
+ * @brief LED状态切换函数
  *
+ * @note 仅在手动模式下有效
  * @return uint8_t flag 当处于手动模式切换成功时返回0，否则返回1
  */
 uint8_t LED_SwitchState(void)
@@ -38,16 +67,10 @@ uint8_t LED_SwitchState(void)
     return 0;
 }
 
-void LED_Init(void)
-{
-    PWM_Init();
-}
-
 /**
  * @brief 设置LED亮度
  *
  * @param Brightness 亮度，取值从0到100
- * @note LED_SetBrightness(50)
  */
 void LED_SetBrightness(uint16_t Brightness)
 {
@@ -57,11 +80,57 @@ void LED_SetBrightness(uint16_t Brightness)
 }
 
 /**
+ * @brief 打开LED
+ * 切换至手动模式并打开LED
+ * 
+ */
+void LED_TurnOn(void)
+{
+    Mode = MANUAL;
+    State = ON;
+}
+
+/**
  * @brief 关闭LED
+ * 切换至手动模式并关闭LED
  *
- * @note LED_TurnOff()
  */
 void LED_TurnOff(void)
 {
-    TIM_SetCompare1(TIM2, 0);
+    Mode = MANUAL;
+    State = OFF;
+}
+
+/**
+ * @brief LED提高亮度
+ * 
+ * @note 仅在手动模式下有效
+ * @return uint8_t flag 成功提高亮度时返回0，处于自动模式时返回1，已达最高亮度返回2
+ */
+uint8_t LED_BriUp(void)
+{
+    if (Mode == AUTO)
+        return 1;
+    if (Man_Bri < 100)
+        Man_Bri += 10;
+    else
+        return 2;
+    return 0;
+}
+
+/**
+ * @brief LED降低亮度
+ * 
+ * @note 仅在手动模式下有效
+ * @return uint8_t flag 成功降低亮度时返回0，处于自动模式时返回1，已达最低亮度返回2
+ */
+uint8_t LED_BriDown(void)
+{
+    if (Mode == AUTO)
+        return 1;
+    if (Man_Bri > 10)
+        Man_Bri -= 10;
+    else
+        return 2;
+    return 0;
 }

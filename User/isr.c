@@ -11,7 +11,7 @@
 /**
  * @brief 命令处理函数
  * 虽然不是中断，但是不知道应该放哪了，就先放这吧
- * 
+ *
  * @param RxPacket 命令源
  */
 void Serial_CmdHandler(char *RxPacket)
@@ -24,22 +24,96 @@ void Serial_CmdHandler(char *RxPacket)
         else
             Serial_SendString("Time set success\r\n", SERIAL_BT);
     }
+    // 开灯
+    else if (strcmp(RxPacket, "TurnOn") == 0)
+    {
+        LED_TurnOn();
+        Serial_SendString("TurnOn_OK\r\n", SERIAL_BT);
+        HC05_SendMessage(TurnOn_OK);
+    }
+    // 关灯
+    else if (strcmp(RxPacket, "TurnOff") == 0)
+    {
+        LED_TurnOff();
+        Serial_SendString("TurnOff_OK\r\n", SERIAL_BT);
+        HC05_SendMessage(TurnOff_OK);
+    }
+    // 提高亮度
+    else if (strcmp(RxPacket, "BrightnessUp") == 0)
+    {
+        switch (LED_BriUp())
+        {
+        case 0:
+            Serial_SendString("BriUp_OK\r\n", SERIAL_BT);
+            HC05_SendMessage(BriUP_OK);
+            break;
+        case 1:
+            Serial_SendString("Error: please switch to mannual mode first\r\n", SERIAL_BT);
+            HC05_SendMessage(ManModeFirst);
+        case 2:
+            Serial_SendString("Reached MaxBri already\r\n", SERIAL_BT);
+            HC05_SendMessage(MaxBrightness);
+        default:
+            break;
+        }
+    }
+    // 降低亮度
+    else if (strcmp(RxPacket, "BrightnessDown") == 0)
+    {
+        switch (LED_BriDown())
+        {
+        case 0:
+            Serial_SendString("BriDown_OK\r\n", SERIAL_BT);
+            HC05_SendMessage(BriDown_OK);
+            break;
+        case 1:
+            Serial_SendString("Error: please switch to mannual mode first\r\n", SERIAL_BT);
+            HC05_SendMessage(ManModeFirst);
+        case 2:
+            Serial_SendString("Reached MinBri already\r\n", SERIAL_BT);
+            HC05_SendMessage(MinBrightness);
+        default:
+            break;
+        }
+    }
+    // 自动模式
+    else if (strcmp(RxPacket, "AutoMode") == 0)
+    {
+        LED_AutoMode();
+        Serial_SendString("Switched to Auto Mode\r\n", SERIAL_BT);
+        HC05_SendMessage(AutoMode_OK);
+    }
+    // 手动模式
+    else if (strcmp(RxPacket, "ManualMode") == 0)
+    {
+        LED_ManualMode();
+        Serial_SendString("Switched to Manual Mode\r\n", SERIAL_BT);
+        HC05_SendMessage(ManualMode_OK);
+    }
+
     // 切换模式
     else if (strcmp(RxPacket, "SwitchMode") == 0)
     {
         LED_SwitchMode();
         Serial_SendString("Mode switch successful\r\n", SERIAL_BT);
+        HC05_SendMessage(SwitchMode_OK);
     }
     // 切换状态
     else if (strcmp(RxPacket, "SwitchState") == 0)
     {
         if (LED_SwitchState() == 1)
+        {
             Serial_SendString("Error: please switch to mannual mode first\r\n", SERIAL_BT);
+            HC05_SendMessage(ManModeFirst);
+        }
         else
+        {
             Serial_SendString("State switch successful\r\n", SERIAL_BT);
+            HC05_SendMessage(SwitchState_OK);
+        }
     }
     // 获取学习时间
-    else if (strcmp(RxPacket, "GetLearningTime") == 0)
+    else if (strcmp(RxPacket, "LearnTime") == 0)
     {
         Serial_SendNumber(timing.hour, SERIAL_BT);
         Serial_SendString(":", SERIAL_BT);
@@ -47,10 +121,11 @@ void Serial_CmdHandler(char *RxPacket)
         Serial_SendString(":", SERIAL_BT);
         Serial_SendNumber(timing.sec, SERIAL_BT);
         Serial_SendString("\r\n", SERIAL_BT);
+        HC05_LearnTimeSpk(timing.hour, timing.min, timing.sec);
     }
     // 错误命令
     else
-        Serial_SendString("Error Command\r\n", SERIAL_VOICE);
+        Serial_SendString("Error Command\r\n", SERIAL_BT);
 }
 
 // 计时
@@ -145,7 +220,7 @@ void TIM3_IRQHandler(void)
 
 /**
  * @brief 传感器刷新定时中断
- * 
+ *
  */
 void TIM4_IRQHandler(void)
 {
@@ -169,7 +244,7 @@ void TIM4_IRQHandler(void)
             State = OFF;
         break;
     case MANUAL:
-        Brightness = 100;
+        Brightness = Man_Bri;
         break;
     default:
         break;
@@ -181,7 +256,7 @@ void TIM4_IRQHandler(void)
         LED_SetBrightness(Brightness);
         break;
     case OFF:
-        LED_TurnOff();
+        LED_SetBrightness(0);
         break;
     default:
         break;

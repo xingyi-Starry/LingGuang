@@ -102,38 +102,26 @@ void Serial_SendNumber(uint32_t num, USART_TypeDef *Serial)
     }
 }
 
-/*
-uint8_t Serial_GetRxFlag(void)
-{
-    if (Serial_RxFlag == 1)
-    {
-        Serial_RxFlag = 0;
-        return 1;
-    }
-    return 0;
-}*/
-
 /**
- * @brief 命令缓存刷新函数
- *
- * 当蓝牙接收区或语音接收区非空时，将待执行命令指针指向对应接收区，以便处理命令
- * @note 优先处理蓝牙接收区命令
- * @return 当有未处理命令时返回1，否则返回0
+ * @brief HC05命令
+ * 
+ * @param Message 命令
  */
-/*
-uint8_t Serial_RefreshCmdCache(void)
+void HC05_SendMessage(HC05MESSAGE_enum Message)
 {
-    if (Flag_BTNE == 1)
-    {
-        Serial_Command = BT_RxPacket;
-        Flag_BTNE = 0;
-        return 1;
-    }
-    else if (Flag_VoiceNE == 1)
-    {
-        Serial_Command = Voice_RxPacket;
-        Flag_VoiceNE = 0;
-        return 1;
-    }
-    return 0;
-} */
+    Serial_SendByte('@', SERIAL_VOICE);
+    Serial_SendByte(Message, SERIAL_VOICE);
+    Serial_SendByte('\r', SERIAL_VOICE);
+    Serial_SendByte('\n', SERIAL_VOICE);
+}
+
+void HC05_LearnTimeSpk(uint8_t hour, uint8_t min, uint8_t sec)
+{
+    Serial_SendByte('@', SERIAL_VOICE);
+    Serial_SendByte(LearnTimeSpk, SERIAL_VOICE);
+    Serial_SendByte(hour, SERIAL_VOICE);
+    Serial_SendByte(min, SERIAL_VOICE);
+    Serial_SendByte(sec, SERIAL_VOICE);
+    Serial_SendByte('\r', SERIAL_VOICE);
+    Serial_SendByte('\n', SERIAL_VOICE);    
+}

@@ -29,6 +29,7 @@ int main(void)
 //	OLED_ShowString(4, 1, "Ls:");
 //	OLED_ShowString(4, 8, "Is:");
 
+	// 主循环啥也没了，乐
 	while (1)
 	{
 		/*
