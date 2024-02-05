@@ -16,8 +16,9 @@ typedef enum
     ManualMode_OK,
     SwitchMode_OK,
     SwitchState_OK,
-    LearnTimeSpk,
-    ManModeFirst
+    ManModeFirst,
+    TurnOnFirst,
+    LearnTimeSpk
 } HC05MESSAGE_enum;
 
 void Serial_Init(void);

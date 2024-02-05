@@ -104,33 +104,37 @@ void LED_TurnOff(void)
 /**
  * @brief LED提高亮度
  * 
- * @note 仅在手动模式下有效
- * @return uint8_t flag 成功提高亮度时返回0，处于自动模式时返回1，已达最高亮度返回2
+ * @note 仅在手动模式且开灯状态下有效
+ * @return uint8_t flag 成功提高亮度时返回0，处于自动模式时返回1，未开灯时返回2，已达最高亮度返回3
  */
 uint8_t LED_BriUp(void)
 {
     if (Mode == AUTO)
         return 1;
+    if (State == OFF)
+        return 2;
     if (Man_Bri < 100)
         Man_Bri += 10;
     else
-        return 2;
+        return 3;
     return 0;
 }
 
 /**
  * @brief LED降低亮度
  * 
- * @note 仅在手动模式下有效
+ * @note 仅在手动模式且开灯状态下有效
  * @return uint8_t flag 成功降低亮度时返回0，处于自动模式时返回1，已达最低亮度返回2
  */
 uint8_t LED_BriDown(void)
 {
     if (Mode == AUTO)
         return 1;
+    if (State == OFF)
+        return 2;
     if (Man_Bri > 10)
         Man_Bri -= 10;
     else
-        return 2;
+        return 3;
     return 0;
 }

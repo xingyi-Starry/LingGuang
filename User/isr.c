@@ -50,9 +50,15 @@ void Serial_CmdHandler(char *RxPacket)
         case 1:
             Serial_SendString("Error: please switch to mannual mode first\r\n", SERIAL_BT);
             HC05_SendMessage(ManModeFirst);
+            break;
         case 2:
+            Serial_SendString("Error: please turn on first\r\n", SERIAL_BT);
+            HC05_SendMessage(TurnOnFirst);
+            break;
+        case 3:
             Serial_SendString("Reached MaxBri already\r\n", SERIAL_BT);
             HC05_SendMessage(MaxBrightness);
+            break;
         default:
             break;
         }
@@ -69,9 +75,15 @@ void Serial_CmdHandler(char *RxPacket)
         case 1:
             Serial_SendString("Error: please switch to mannual mode first\r\n", SERIAL_BT);
             HC05_SendMessage(ManModeFirst);
+            break;
         case 2:
+            Serial_SendString("Error: please turn on first\r\n", SERIAL_BT);
+            HC05_SendMessage(TurnOnFirst);
+            break;
+        case 3:
             Serial_SendString("Reached MinBri already\r\n", SERIAL_BT);
             HC05_SendMessage(MinBrightness);
+            break;
         default:
             break;
         }
@@ -256,7 +268,7 @@ void TIM4_IRQHandler(void)
         LED_SetBrightness(Brightness);
         break;
     case OFF:
-        LED_SetBrightness(0);
+        TIM_SetCompare1(TIM2, 0);
         break;
     default:
         break;
